@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Self-Destructing Cookies",
+  "description": "This extension stores cookies when you need them, and removes them when there no longer needed.",
+  "version": "1.0",
+  "author": "Nolan Roberson",
+
+  "permissions": [
+    "cookies",
+    "storage"
+  ],
+  "browser_action": {
+    "default_icon": {                    // optional
+      "19": "images/icon19.png",           // optional
+      "38": "images/icon38.png"            // optional
+    },
+    "default_title": "Google Mail",      // optional; shown in tooltip
+    "default_popup": "popup.html"        // optional
+  },
+  "background": 
+  {
+    "scripts": ["bg.js"]
+  }
+}
