@@ -93,21 +93,54 @@ function checkCookiesAgainstTabs(cookieHosts, currentTabs)
 function setupListeners() 
 {
 	// addHostToList(extractNetLoc("http://www.google.com/test"), hosts);
-	chrome.cookies.onChanged.addListener(function(changeInfo){
-		var added = !changeInfo.removed;
+	// chrome.cookies.onChanged.addListener(function(changeInfo){
+	// 	var added = !changeInfo.removed;
 
-		if (added)
+	// 	if (added)
+	// 	{
+	// 		var cookie = changeInfo.cookie;
+	// 		addHostToList(cookie.domain, hosts);
+	// 	}
+	// });
+
+	// chrome.tabs.onRemoved.addListener(function(tabId, removeInfo){
+	// 	chrome.tabs.query({},function(tabs){
+	// 		checkCookiesAgainstTabs(hosts, tabs);
+	// 	});
+	// });
+
+
+	chrome.webRequest.onCompleted.addListener(function(details) {
+		var tabId = details.tabId;
+		var headers = details.responseHeaders;
+
+		var noCookie = true;
+		var len = headers.length;
+		var i = 0;
+		// while (i < len && noCookie)
+		// {
+		// 	if (headers[i].name === 'set-cookie')
+		// 	{
+		// 		noCookie = false;
+		// 	}
+		// 	i++;
+		// }
+
+		headers.forEach(function(element, index, array){
+			if (element.name === 'set-cookie')
+			{
+				console.log(element.value);
+			}
+		});		
+
+		if (!noCookie)
 		{
-			var cookie = changeInfo.cookie;
-			addHostToList(cookie.domain, hosts);
-		}
-	});
+			console.debug("This request has a cookie");
 
-	chrome.tabs.onRemoved.addListener(function(tabId, removeInfo){
-		chrome.tabs.query({},function(tabs){
-			checkCookiesAgainstTabs(hosts, tabs);
-		});
-	});
+		}
+	},
+	{"urls":["<all_urls>"]},
+	["responseHeaders"]); 
 }
 
 console.log("Adding listeners.");

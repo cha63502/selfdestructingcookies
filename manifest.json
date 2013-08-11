@@ -8,9 +8,10 @@
 
   "permissions": [
     "cookies",
-    "*://*/*",
     "storage",
-    "tabs"
+    "tabs",
+    "webRequest",
+    "<all_urls>"
   ],
   "browser_action": {
     "default_icon": {                    // optional
